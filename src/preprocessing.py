@@ -1,5 +1,5 @@
 # src/preprocessing.py
-
+import os
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
@@ -39,6 +39,10 @@ def build_preprocessing_pipeline(df):
     return X, y, preprocessor
 
 def split_and_preprocess(X, y, preprocessor, test_size=0.2, random_state=42):
+    from sklearn.model_selection import train_test_split
+    from sklearn.pipeline import Pipeline
+    import joblib
+
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=test_size, stratify=y, random_state=random_state
     )
@@ -47,7 +51,8 @@ def split_and_preprocess(X, y, preprocessor, test_size=0.2, random_state=42):
     X_train_transformed = pipeline.fit_transform(X_train)
     X_test_transformed = pipeline.transform(X_test)
 
-    # Save the full pipeline for reuse (e.g., during inference)
-    joblib.dump(pipeline, "models/preprocessing_pipeline.joblib")
+    # Ensure models directory exists
+    os.makedirs("../models", exist_ok=True)
+    joblib.dump(pipeline, "../models/preprocessing_pipeline.joblib")
 
     return X_train_transformed, X_test_transformed, y_train, y_test
