@@ -10,6 +10,7 @@ import pandas as pd
 model = joblib.load("models/logistic_regression_model.joblib")
 pipeline = joblib.load("models/preprocessing_pipeline.joblib")
 
+
 # Define input schema
 class CustomerData(BaseModel):
     gender: str
@@ -32,22 +33,22 @@ class CustomerData(BaseModel):
     MonthlyCharges: float
     TotalCharges: float
 
+
 app = FastAPI()
+
 
 @app.get("/")
 def read_root():
     return {"message": "Churn Prediction API is live!"}
+
 
 @app.post("/predict")
 def predict(data: CustomerData):
     input_dict = data.model_dump()
     input_df = pd.DataFrame([input_dict])  # Convert to proper shape
     input_transformed = pipeline.transform(input_df)
-    
+
     pred = model.predict(input_transformed)[0]
     prob = model.predict_proba(input_transformed)[0][1]
-    
-    return {
-        "churn_prediction": int(pred),
-        "churn_probability": round(prob, 4)
-    }
+
+    return {"churn_prediction": int(pred), "churn_probability": round(prob, 4)}

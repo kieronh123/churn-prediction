@@ -5,6 +5,7 @@ from app.main import app
 
 client = TestClient(app)
 
+
 def test_predict_endpoint():
     sample_input = {
         "gender": "Female",
@@ -25,7 +26,7 @@ def test_predict_endpoint():
         "PaperlessBilling": "Yes",
         "PaymentMethod": "Electronic check",
         "MonthlyCharges": 70.35,
-        "TotalCharges": 350.5
+        "TotalCharges": 350.5,
     }
     response = client.post("/predict", json=sample_input)
     assert response.status_code == 200

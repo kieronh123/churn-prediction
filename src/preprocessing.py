@@ -8,9 +8,11 @@ from sklearn.pipeline import Pipeline
 from sklearn.impute import SimpleImputer
 import joblib
 
+
 def load_data(path):
     df = pd.read_csv(path)
     return df
+
 
 def build_preprocessing_pipeline(df):
     X = df.drop("Churn", axis=1)
@@ -19,24 +21,29 @@ def build_preprocessing_pipeline(df):
     categorical_features = X.select_dtypes(include=["object"]).columns.tolist()
     numeric_features = X.select_dtypes(include=["int64", "float64"]).columns.tolist()
 
-    categorical_transformer = Pipeline(steps=[
-        ("imputer", SimpleImputer(strategy="most_frequent")),
-        ("onehot", OneHotEncoder(handle_unknown="ignore"))
-    ])
+    categorical_transformer = Pipeline(
+        steps=[
+            ("imputer", SimpleImputer(strategy="most_frequent")),
+            ("onehot", OneHotEncoder(handle_unknown="ignore")),
+        ]
+    )
 
-    numeric_transformer = Pipeline(steps=[
-        ("imputer", SimpleImputer(strategy="mean")),
-        ("scaler", StandardScaler())
-    ])
+    numeric_transformer = Pipeline(
+        steps=[
+            ("imputer", SimpleImputer(strategy="mean")),
+            ("scaler", StandardScaler()),
+        ]
+    )
 
     preprocessor = ColumnTransformer(
         transformers=[
             ("num", numeric_transformer, numeric_features),
-            ("cat", categorical_transformer, categorical_features)
+            ("cat", categorical_transformer, categorical_features),
         ]
     )
 
     return X, y, preprocessor
+
 
 def split_and_preprocess(X, y, preprocessor, test_size=0.2, random_state=42):
     from sklearn.model_selection import train_test_split
