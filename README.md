@@ -23,19 +23,15 @@ This project predicts whether a customer is likely to churn using machine learni
 
 ### 1. Clone the Repository
 
-bash
+
 git clone https://github.com/kieronh123/churn-prediction.git
 cd churn-prediction
 2. Create a Virtual Environment
-bash
-Copy
-Edit
+
 python -m venv venv
 source venv/bin/activate      # On Windows: venv\Scripts\activate
 3. Install Dependencies
-bash
-Copy
-Edit
+
 pip install -r requirements.txt
 ---
 
@@ -63,8 +59,7 @@ POST /predict
 
 ### Example Input
 json
-Copy
-Edit
+
 {
   "gender": "Female",
   "SeniorCitizen": 0,
@@ -109,9 +104,7 @@ Builds the Docker image
 Config: .github/workflows/docker.yml
 
 📂 Project Structure
-bash
-Copy
-Edit
+
 churn-prediction/
 ├── app/                        # FastAPI app
 │   └── main.py
@@ -126,12 +119,9 @@ churn-prediction/
 ├── requirements.txt
 ├── README.md
 └── .dockerignore
-📄 License
+License
 This project is licensed under the MIT License.
 
-yaml
-Copy
-Edit
 
 ---
 
